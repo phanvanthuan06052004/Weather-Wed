@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 const URLapi = "http://api.openweathermap.org/data/2.5/weather?q=";
 const apiKey = "";
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
