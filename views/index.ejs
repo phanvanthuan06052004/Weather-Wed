@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="card">
+        <form action="/" method="post">
+            <div class="search">
+                <input type="text" name="city" placeholder="Enter city name" spellcheck="false">
+                <button type="submit" class="fa-solid fa-magnifying-glass"></button>
+            </div>
+        </form>
+        <% if (locals.error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <div class="weather">
+            <% if (content && content.weather && content.weather.length > 0) { %>
+                <% 
+                    const weatherMain = content.weather[0].main;
+                    let weatherIcon;
+                    
+                    switch (weatherMain) {
+                        case "Clouds":
+                            weatherIcon = "fa-cloud";
+                            break;
+                        case "Snow":
+                            weatherIcon = "fa-snowflake";
+                            break;
+                        case "Rain":
+                            weatherIcon = "fa-cloud-rain";
+                            break;
+                        case "Drizzle":
+                            weatherIcon = "fa-cloud-sun-rain";
+                            break;
+                        case "Mist":
+                            weatherIcon = "fa-smog";
+                            break;
+                        case "Clear":
+                            weatherIcon = "fa-sun";
+                            break;
+                        default:
+                            weatherIcon = "fa-cloud";
+                            break;
+                    }
+                %>
+                <i class="fa-solid <%= weatherIcon %> weather-icon fa-5x"></i>
+                
+                <% const tmp = Math.round(content.main.temp); %>
+                <h1 class="temp"><%= tmp %>°C</h1>
+                <h2 class="city"><%= content.name %></h2>
+                <div class="details">
+                    <div class="col">
+                        <i class="fa-solid fa-water fa-2x"></i>
+                        <div>
+                            <p class="humidity"><%= content.main.humidity %>%</p>
+                            <p>Humidity</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <i class="fa-solid fa-wind fa-2x"></i>
+                        <div>
+                            <p class="wind"><%= content.wind.speed %> km/h</p>
+                            <p>Wind Speed</p>
+                        </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <h1 class="temp">--°C</h1>
+                <h2 class="city">City</h2>
+                <div class="details">
+                    <div class="col">
+                        <i class="fa-solid fa-water fa-2x"></i>
+                        <div>
+                            <p class="humidity">--%</p>
+                            <p>Humidity</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <i class="fa-solid fa-wind fa-2x"></i>
+                        <div>
+                            <p class="wind">-- km/h</p>
+                            <p>Wind Speed</p>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
